@@ -6,8 +6,9 @@
         <div class="col-xs-12 col-md-6">
           <div class="text-subtitle1">Enter a Recurring Monthly Expense</div>
           <q-input v-model="newExpense.title" label="Title" />
-          <q-input v-model="newExpense.amount" label="Amount" />
+          <q-input prefix="$" v-model="newExpense.amount" label="Amount" />
           <q-btn
+            @click="addNewExpense()"
             color="primary"
             label="Add Expense"
             :disabled="!formComplete"
@@ -16,11 +17,9 @@
       </div>
     </q-card>
     <q-card>
-      <div
-        class="row"
-        v-for="expense in montlyExpenses"
-        :key="expense.title"
-      ></div>
+      <div class="row" v-for="expense in monthlyExpenses" :key="expense.title">
+        {{ expense.title }} + {{ expense.amount }}
+      </div>
     </q-card>
     <q-separator />
     <q-card flat>
@@ -44,6 +43,7 @@ export default {
     },
   },
   setup() {
+    const monthlyExpenses = ref([]);
     const newExpense = ref({
       title: "",
       amount: "",
@@ -54,8 +54,13 @@ export default {
         newExpense.value.amount.trim() !== ""
       );
     });
+    const addNewExpense = () => {
+      monthlyExpenses.value.push(newExpense.value);
+    };
 
     return {
+      monthlyExpenses,
+      addNewExpense,
       newExpense,
       formComplete,
     };
