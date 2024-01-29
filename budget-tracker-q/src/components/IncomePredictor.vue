@@ -1,10 +1,24 @@
 <template>
   <div>
+    <q-dialog v-model="popup">
+      <q-card class="background">
+        <div class="text-subtitle1">
+          Let's start off by adding consistent, monthly expenses.
+        </div>
+        <div class="text-subtitle2">
+          Don't worry, you'll be able to add weekly/infrequent expenses too!
+        </div>
+        <!-- Gif showing expenses being added -->
+        <div class="row">
+          <q-btn @click="popup = false" label="Ready!" no-caps />
+        </div>
+      </q-card>
+    </q-dialog>
     <q-card flat>
-      <div class="text-subtitle1">Monthly Expenses</div>
+      <div class="text-subtitle1">Weekly Expenses</div>
       <div class="row">
         <div class="col-xs-12 col-md-6">
-          <div class="text-subtitle1">Enter a Recurring Monthly Expense</div>
+          <div class="text-subtitle1">Enter a Recurring Weekly Expense</div>
           <q-input v-model="newExpense.title" label="Title" />
           <q-input prefix="$" v-model="newExpense.amount" label="Amount" />
           <q-btn
@@ -17,17 +31,9 @@
       </div>
     </q-card>
     <q-card>
-      <div class="row" v-for="expense in monthlyExpenses" :key="expense.title">
+      <div class="row" v-for="expense in weeklyExpenses" :key="expense.title">
         {{ expense.title }} + {{ expense.amount }}
       </div>
-    </q-card>
-    <q-separator />
-    <q-card flat>
-      <div class="text-subtitle1">Weekly Expenses</div>
-    </q-card>
-    <q-separator />
-    <q-card flat>
-      <div class="text-subtitle1">Weekly Expenses</div>
     </q-card>
   </div>
 </template>
@@ -35,7 +41,7 @@
 <script>
 import { computed, ref } from "vue";
 export default {
-  name: "OnceAMonth",
+  name: "IncomePredictor",
   props: {
     isMobile: {
       type: Boolean,
@@ -43,7 +49,8 @@ export default {
     },
   },
   setup() {
-    const monthlyExpenses = ref([]);
+    const popup = ref(true);
+    const weeklyExpenses = ref([]);
     const newExpense = ref({
       title: "",
       amount: "",
@@ -55,11 +62,12 @@ export default {
       );
     });
     const addNewExpense = () => {
-      monthlyExpenses.value.push(newExpense.value);
+      weeklyExpenses.value.push(newExpense.value);
     };
 
     return {
-      monthlyExpenses,
+      popup,
+      weeklyExpenses,
       addNewExpense,
       newExpense,
       formComplete,
@@ -67,3 +75,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.background {
+  background: #34823e;
+}
+</style>
