@@ -1,1 +1,25 @@
 /* app global css */
+.background-light {
+  background-color: #f0e692;
+}
+
+.background-light-green {
+  background-color: #519e5b;
+}
+
+.background-dark-green {
+  background-color: #032e13;
+}
+
+.background-dark {
+  background-color: #303236;
+}
+
+.background-blue {
+  background-color: #1e7fc9;
+}
+
+.button-large {
+  border-radius: 12px;
+  width: 150px;
+}
