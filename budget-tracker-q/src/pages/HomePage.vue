@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page :class="budgeting ? '' : 'background-light-green'" class="q-pa-md">
     <div class="row justify-center">
       <div class="text-h6">Simple Budget App</div>
       <q-btn v-if="budgeting" flat icon="home" @click="budgeting = false" />
@@ -16,7 +16,13 @@
     </div>
 
     <div v-if="budgeting">
-      <q-stepper flat ref="stepper" v-model="step">
+      <q-stepper
+        alternative-labels
+        :contracted="isMobile"
+        flat
+        ref="stepper"
+        v-model="step"
+      >
         <q-step
           icon="assignment"
           title="Add Monthly Expenses"

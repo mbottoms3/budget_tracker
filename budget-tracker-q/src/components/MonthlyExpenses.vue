@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="popup">
+    <q-dialog :maximized="$q.screen.lt.sm ? true : false" v-model="popup">
       <q-card
         :class="isMobile ? 'popup-card-mobile' : 'popup-card-dt'"
         class="popup-card-style"
@@ -28,8 +28,21 @@
       <div class="row">
         <div class="col-xs-12 col-md-6">
           <div class="text-subtitle1">Enter a Recurring Monthly Expense</div>
-          <q-input v-model="newExpense.title" label="Description" />
-          <q-input prefix="$" v-model="newExpense.amount" label="Amount" />
+          <q-input
+            outlined
+            bg-color="accent"
+            dense
+            v-model="newExpense.title"
+            label="Description"
+          />
+          <q-input
+            bg-color="accent"
+            outlined
+            dense
+            prefix="$"
+            v-model="newExpense.amount"
+            label="Amount"
+          />
           <q-btn
             text-color="white"
             @click="addNewExpense()"
@@ -105,11 +118,11 @@ export default {
   border-radius: 8px;
 }
 .popup-card-mobile {
-  width: 300px;
-  height: 220px;
+  width: 400px;
+  height: 300px;
 }
 .popup-card-dt {
-  width: 30rem;
-  height: 20rem;
+  width: 500px;
+  height: 400px;
 }
 </style>
