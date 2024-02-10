@@ -44,29 +44,34 @@
             label="Amount"
           />
           <q-btn
-            text-color="white"
+            color="secondary"
             @click="addNewExpense()"
-            class="background2"
             label="Add Expense"
             :disabled="!formComplete"
           />
         </div>
       </div>
     </q-card>
-    <q-card>
+    <q-card flat>
       <div v-if="monthlyExpenses.length" class="text-subtitle1">
         Monthly Expenses
       </div>
-      <div class="row" v-for="expense in monthlyExpenses" :key="expense.title">
-        <div class="text-body q-ma-sm">Expense: {{ expense.title }}</div>
-        <div class="text-body q-ma-sm">Amount: {{ expense.amount }}</div>
+      <div class="row">
+        <div
+          v-for="expense in monthlyExpenses"
+          :key="expense.title"
+          class="col-xs-12 col-md-6 bg-primary q-my-md"
+        >
+          <div class="text-body q-ma-sm">Expense: {{ expense.title }}</div>
+          <div class="text-body q-ma-sm">Amount: {{ expense.amount }}</div>
+        </div>
       </div>
     </q-card>
   </div>
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 export default {
   name: "MonthlyExpenses",
   props: {
@@ -75,7 +80,8 @@ export default {
       required: true,
     },
   },
-  setup() {
+  emits: ["monthly"],
+  setup(props, context) {
     const popup = ref(true);
     const monthlyExpenses = ref([]);
     const newExpense = ref({
@@ -100,6 +106,10 @@ export default {
         amount: "",
       };
     };
+
+    watch(monthlyExpenses.value, () => {
+      context.emit("monthly", monthlyExpenses.value);
+    });
 
     return {
       popup,

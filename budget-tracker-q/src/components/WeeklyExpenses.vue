@@ -19,8 +19,21 @@
       <div class="row">
         <div class="col-xs-12 col-md-6">
           <div class="text-subtitle1">Enter a Recurring Weekly Expense</div>
-          <q-input v-model="newExpense.title" label="Title" />
-          <q-input prefix="$" v-model="newExpense.amount" label="Amount" />
+          <q-input
+            outlined
+            bg-color="accent"
+            dense
+            v-model="newExpense.title"
+            label="Description"
+          />
+          <q-input
+            bg-color="accent"
+            outlined
+            dense
+            prefix="$"
+            v-model="newExpense.amount"
+            label="Amount"
+          />
           <q-btn
             @click="addNewExpense()"
             color="primary"
@@ -39,7 +52,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 export default {
   name: "WeeklyExpenses",
   props: {
@@ -48,7 +61,8 @@ export default {
       required: true,
     },
   },
-  setup() {
+  emits: ["weekly"],
+  setup(props, context) {
     const popup = ref(true);
     const weeklyExpenses = ref([]);
     const newExpense = ref({
@@ -63,7 +77,20 @@ export default {
     });
     const addNewExpense = () => {
       weeklyExpenses.value.push(newExpense.value);
+
+      resetForm();
     };
+
+    const resetForm = () => {
+      newExpense.value = {
+        title: "",
+        amount: "",
+      };
+    };
+
+    watch(weeklyExpenses.value, () => {
+      context.emit("weekly", weeklyExpenses.value);
+    });
 
     return {
       popup,
