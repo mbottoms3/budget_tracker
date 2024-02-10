@@ -15,31 +15,32 @@
       </q-card>
     </q-dialog>
     <q-card flat>
-      <div class="text-subtitle1">Weekly Expenses</div>
+      <div class="text-subtitle1">Add in your average income</div>
       <div class="row">
         <div class="col-xs-12 col-md-6">
           <div class="text-subtitle1">Enter a Recurring Weekly Expense</div>
-          <q-input v-model="newExpense.title" label="Title" />
-          <q-input prefix="$" v-model="newExpense.amount" label="Amount" />
+
+          <q-input prefix="$" v-model="newIncome.amount" label="Amount" />
+          <q-select
+            label="Income Frequency"
+            v-model="newIncome.frequency"
+            :options="options"
+          />
           <q-btn
-            @click="addNewExpense()"
+            @click="addIncome()"
             color="primary"
-            label="Add Expense"
+            label="Add Income"
             :disabled="!formComplete"
           />
         </div>
       </div>
     </q-card>
-    <q-card>
-      <div class="row" v-for="expense in weeklyExpenses" :key="expense.title">
-        {{ expense.title }} + {{ expense.amount }}
-      </div>
-    </q-card>
+    <q-card> </q-card>
   </div>
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 export default {
   name: "IncomePredictor",
   props: {
@@ -48,28 +49,50 @@ export default {
       required: true,
     },
   },
-  setup() {
+  emits: ["income"],
+  setup(props, context) {
     const popup = ref(true);
-    const weeklyExpenses = ref([]);
-    const newExpense = ref({
-      title: "",
+    const newIncome = ref({
       amount: "",
+      frequency: "",
     });
-    const formComplete = computed(() => {
-      return (
-        newExpense.value.title.trim() !== "" &&
-        newExpense.value.amount.trim() !== ""
-      );
+    const monthlyTotal = ref({
+      amount: "",
+      frequency: "",
     });
-    const addNewExpense = () => {
-      weeklyExpenses.value.push(newExpense.value);
+    const options = ref([
+      {
+        label: "Once a month",
+        multiplier: "1",
+      },
+      {
+        label: "Twice a month",
+        multiplier: "2",
+      },
+      {
+        label: "Weekly",
+        multiplier: "4",
+      },
+    ]);
+
+    const addIncome = () => {
+      console.log(newIncome.value);
+      monthlyTotal.value = newIncome.value;
+      console.log(monthlyTotal.value);
     };
+    const formComplete = computed(() => {
+      return newIncome.value.amount.trim() !== "";
+    });
+
+    watch(monthlyTotal, (newValue, oldValue) => {
+      context.emit("income", newValue);
+    });
 
     return {
       popup,
-      weeklyExpenses,
-      addNewExpense,
-      newExpense,
+      options,
+      addIncome,
+      newIncome,
       formComplete,
     };
   },
