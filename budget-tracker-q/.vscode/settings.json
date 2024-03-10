@@ -11,5 +11,26 @@
     "javascriptreact",
     "typescript",
     "vue"
-  ]
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#3156fe",
+    "activityBar.background": "#3156fe",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#7f0117",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "panel.border": "#3156fe",
+    "sash.hoverBorder": "#3156fe",
+    "statusBar.background": "#012efb",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3156fe",
+    "statusBarItem.remoteBackground": "#012efb",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#012efb",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#012efb99",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#012efb"
 }
