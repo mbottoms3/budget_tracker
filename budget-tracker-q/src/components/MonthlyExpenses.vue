@@ -1,21 +1,31 @@
 <template>
   <div>
-    <q-dialog :maximized="$q.screen.lt.sm ? true : false" v-model="popup">
+    <q-dialog v-model="popup">
       <q-card
-        :class="isMobile ? 'popup-card-mobile' : 'popup-card-dt'"
+        :class="
+          isMobile ? 'popup-card-mobile q-pa-sm' : 'popup-card-dt q-pa-md'
+        "
         class="popup-card-style"
       >
-        <div class="text-h4">
+        <div
+          class="text-center q-my-md"
+          :class="isMobile ? 'text-h5 text-bold' : 'text-h4'"
+        >
           Let's start off by adding consistent, monthly expenses.
         </div>
-        <div class="text-subtitle1">
+
+        <div
+          class="text-center"
+          :class="isMobile ? 'text-subtitle2' : 'text-subtitle1'"
+        >
           Don't worry, you'll be able to add weekly/infrequent expenses too!
         </div>
         <!-- Gif showing expenses being added -->
-        <div class="row">
+        <div class="row justify-center q-mt-xl">
           <q-btn
+            class="button-large"
             text-color="white"
-            class="background2"
+            color="secondary"
             @click="popup = false"
             label="Ready!"
             no-caps
@@ -23,47 +33,96 @@
         </div>
       </q-card>
     </q-dialog>
-    <q-card flat>
-      <div class="text-subtitle1">Monthly Expenses</div>
-      <div class="row">
-        <div class="col-xs-12 col-md-6">
-          <div class="text-subtitle1">Enter a Recurring Monthly Expense</div>
-          <q-input
-            outlined
-            bg-color="accent"
-            dense
-            v-model="newExpense.title"
-            label="Description"
-          />
-          <q-input
-            bg-color="accent"
-            outlined
-            dense
-            prefix="$"
-            v-model="newExpense.amount"
-            label="Amount"
-          />
-          <q-btn
-            color="secondary"
-            @click="addNewExpense()"
-            label="Add Expense"
-            :disabled="!formComplete"
-          />
-        </div>
+
+    <!-- Input Card -->
+    <div class="row justify-center">
+      <div class="col-xs-12 col-md-7">
+        <q-card flat class="bg-accent expense-input-card q-py-md q-px-sm">
+          <div class="row justify-center">
+            <div class="text-subtitle1">Monthly Expenses</div>
+          </div>
+          <div class="row justify-center">
+            <div class="col-xs-12 col-md-4">
+              <div class="text-subtitle1">
+                Enter a Recurring Monthly Expense
+              </div>
+              <q-input
+                class="q-my-sm"
+                rounded
+                outlined
+                bg-color="white"
+                dense
+                v-model="newExpense.title"
+                label="Description"
+              />
+              <q-input
+                class="q-my-sm"
+                rounded
+                bg-color="white"
+                outlined
+                dense
+                prefix="$"
+                v-model="newExpense.amount"
+                label="Amount"
+              />
+              <q-input
+                rounded
+                outlined
+                bg-color="white"
+                dense
+                v-model="newExpense.date"
+                disable
+                class="input-style q-my-sm"
+                label="Date"
+              >
+                <template v-slot:after>
+                  <q-btn
+                    color="primary"
+                    @click="datePicker = true"
+                    flat
+                    icon="event"
+                  />
+                </template>
+              </q-input>
+              <q-dialog v-model="datePicker">
+                <q-date mask="MM-DD-YYYY" today-btn v-model="newExpense.date" />
+              </q-dialog>
+
+              <q-btn
+                class="button-med"
+                no-caps
+                text-color="positive"
+                color="white"
+                @click="addNewExpense()"
+                label="Add Expense"
+                :disabled="!formComplete"
+              />
+            </div>
+          </div>
+        </q-card>
       </div>
-    </q-card>
-    <q-card flat>
-      <div v-if="monthlyExpenses.length" class="text-subtitle1">
+    </div>
+
+    <!-- Output card -->
+    <q-card flat class="q-mt-xl">
+      <div v-if="monthlyExpenses.length" class="text-h6 text-center">
         Monthly Expenses
       </div>
-      <div class="row">
+      <div class="row justify-center">
         <div
+          class="col-md-7 col-xs-12"
           v-for="expense in monthlyExpenses"
           :key="expense.title"
-          class="col-xs-12 col-md-6 bg-primary q-my-md"
         >
-          <div class="text-body q-ma-sm">Expense: {{ expense.title }}</div>
-          <div class="text-body q-ma-sm">Amount: {{ expense.amount }}</div>
+          <q-card class="expense-output-card q-my-md">
+            <div class="text-h6 text-center q-ma-sm">
+              {{ expense.title }}
+            </div>
+
+            <div class="text-subtitle1 text-center q-ma-sm">
+              ${{ expense.amount }} on {{ expense.date }}
+            </div>
+          </q-card>
         </div>
       </div>
     </q-card>
@@ -83,10 +142,12 @@ export default {
   emits: ["monthly"],
   setup(props, context) {
     const popup = ref(true);
+    const datePicker = ref(false);
     const monthlyExpenses = ref([]);
     const newExpense = ref({
       title: "",
       amount: "",
+      date: "",
     });
     const formComplete = computed(() => {
       return (
@@ -104,6 +165,7 @@ export default {
       newExpense.value = {
         title: "",
         amount: "",
+        date: "",
       };
     };
 
@@ -117,6 +179,7 @@ export default {
       addNewExpense,
       newExpense,
       formComplete,
+      datePicker,
     };
   },
 };
@@ -124,11 +187,11 @@ export default {
 
 <style scoped>
 .popup-card-style {
-  border: 4px solid #519e5b;
-  border-radius: 8px;
+  border-radius: 16px;
+  border: 3px solid #1e7fc9;
 }
 .popup-card-mobile {
-  width: 400px;
+  width: 350px;
   height: 300px;
 }
 .popup-card-dt {
