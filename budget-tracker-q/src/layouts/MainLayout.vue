@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpr fFf">
     <q-header elevated>
-      <q-toolbar>
+      <!-- <q-toolbar>
         <q-btn
           flat
           dense
@@ -14,10 +14,10 @@
         <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+      </q-toolbar> -->
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered> </q-drawer>
+    <!-- <q-drawer v-model="leftDrawerOpen" show-if-above bordered> </q-drawer> -->
 
     <q-page-container>
       <router-view />

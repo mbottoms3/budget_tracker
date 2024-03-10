@@ -1,10 +1,17 @@
 <template>
-  <q-page :class="budgeting ? '' : 'background-light-green'" class="q-pa-md">
+  <q-page :class="budgeting ? '' : 'bg-primary'" class="q-pa-md">
     <div class="row justify-center">
       <div class="text-h6">Simple Budget App</div>
-      <q-btn v-if="budgeting" flat icon="home" @click="budgeting = false" />
       <q-space />
-      <div class="col-3">
+      <q-btn
+        size="md"
+        v-if="budgeting"
+        flat
+        icon="home"
+        @click="budgeting = false"
+      />
+
+      <!-- <div class="col-3">
         <q-toggle
           v-model="toggle"
           color="green"
@@ -12,7 +19,7 @@
           :false-value="true"
           :true-value="false"
         />
-      </div>
+      </div> -->
     </div>
 
     <div v-if="budgeting">
@@ -55,27 +62,39 @@
         </q-step>
       </q-stepper>
       <q-separator />
-      <div class="row justify-center">
+      <div class="row justify-center q-mt-xl">
         <q-btn
+          :class="isMobile ? 'button-med' : 'button-large'"
+          class="bg-dark text-white q-mx-md"
           v-if="step > 1"
           no-caps
           label="Back"
           @click="$refs.stepper.previous()"
         />
-        <q-btn v-else @click="budgeting = false" label="Cancel" no-caps />
         <q-btn
+          :class="isMobile ? 'button-med' : 'button-large'"
+          class="bg-dark text-white q-mx-md"
+          v-else
+          @click="budgeting = false"
+          label="Cancel"
+          no-caps
+        />
+        <q-btn
+          :class="isMobile ? 'button-med' : 'button-large'"
+          class="bg-accent q-mx-md"
           v-if="step < 4"
           no-caps
           label="Continue"
           @click="$refs.stepper.next()"
         />
+
         <q-btn v-else no-caps label="Finish" />
       </div>
     </div>
     <welcome-component v-else @start-budgeting="startBudgeting" />
-    <div>{{ weeklyExpenses }}</div>
+    <!-- <div>{{ weeklyExpenses }}</div>
     <div>{{ monthlyExpenses }}</div>
-    <div>{{ income }}</div>
+    <div>{{ income }}</div> -->
   </q-page>
 </template>
 
