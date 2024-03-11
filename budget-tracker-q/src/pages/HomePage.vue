@@ -164,6 +164,7 @@ export default {
           title: expense.title,
           amount: expense.amount,
           frequency: "monthly",
+          date: expense.date,
         };
         allExpenses.value.push(formattedExpense);
       });
@@ -174,6 +175,7 @@ export default {
           title: expense.title,
           amount: expense.amount * 4, // Multiply weekly amount by 4
           frequency: "weekly",
+          date: expense.date,
         };
         allExpenses.value.push(formattedExpense);
       });

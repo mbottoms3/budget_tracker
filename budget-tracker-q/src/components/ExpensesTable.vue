@@ -50,6 +50,13 @@ export default {
         align: "left",
         sortable: false,
       },
+      {
+        name: "date",
+        label: "Day of the Month",
+        field: "date",
+        align: "left",
+        sortable: true,
+      },
     ]);
 
     return {
