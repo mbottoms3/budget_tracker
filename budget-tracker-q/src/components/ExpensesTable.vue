@@ -52,7 +52,7 @@ export default {
       },
       {
         name: "date",
-        label: "Day of the Month",
+        label: "Day of the Month/Week",
         field: "date",
         align: "left",
         sortable: true,
