@@ -111,16 +111,28 @@
       <div class="row justify-center">
         <div
           class="col-md-7 col-xs-12"
-          v-for="expense in monthlyExpenses"
+          v-for="(expense, index) in monthlyExpenses"
           :key="expense.title"
         >
           <q-card class="expense-output-card q-my-md">
-            <div class="text-h6 text-center q-ma-sm">
-              {{ expense.title }}
+            <div class="row justify-center">
+              <q-space />
+              <div class="text-h6 text-center q-ma-sm">
+                {{ expense.title }}
+              </div>
+              <q-space />
+              <q-btn
+                flat
+                icon="close"
+                padding="sm"
+                size="sm"
+                color="dark"
+                @click="removeExpense(index)"
+              />
             </div>
 
             <div class="text-subtitle1 text-center q-ma-sm">
-              ${{ expense.amount }} on {{ expense.date }}
+              ${{ expense.amount }} on the {{ expense.dateSuffix }} of the month
             </div>
           </q-card>
         </div>
@@ -148,6 +160,7 @@ export default {
       title: "",
       amount: "",
       date: "",
+      dateSuffix: "",
     });
     const formComplete = computed(() => {
       return (
@@ -155,10 +168,42 @@ export default {
         newExpense.value.amount.trim() !== ""
       );
     });
+    const getOrdinalSuffix = (day) => {
+      if (day >= 11 && day <= 13) {
+        return "th";
+      }
+      const lastDigit = day % 10;
+      switch (lastDigit) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
     const addNewExpense = () => {
+      const parts = newExpense.value.date.split("-");
+
+      if (parts.length === 3) {
+        const day = parseInt(parts[1], 10);
+        const ordinalSuffix = getOrdinalSuffix(day);
+        console.log(day + ordinalSuffix);
+        newExpense.value.date = day;
+        newExpense.value.dateSuffix = day + ordinalSuffix;
+      } else {
+        console.error("Invalid date format");
+      }
       monthlyExpenses.value.push(newExpense.value);
 
       resetForm();
+    };
+
+    const removeExpense = (index) => {
+      monthlyExpenses.value.splice(index, 1);
     };
 
     const resetForm = () => {
@@ -166,6 +211,7 @@ export default {
         title: "",
         amount: "",
         date: "",
+        dateSuffix: "",
       };
     };
 
@@ -177,6 +223,7 @@ export default {
       popup,
       monthlyExpenses,
       addNewExpense,
+      removeExpense,
       newExpense,
       formComplete,
       datePicker,

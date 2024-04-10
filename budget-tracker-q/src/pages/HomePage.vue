@@ -61,7 +61,7 @@
           />
         </q-step>
       </q-stepper>
-      <q-separator />
+      <!-- <q-separator /> -->
       <div class="row justify-center q-mt-xl">
         <q-btn
           :class="isMobile ? 'button-med' : 'button-large'"
