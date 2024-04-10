@@ -47,6 +47,8 @@
                 Enter a Recurring Monthly Expense
               </div>
               <q-input
+                color="primary"
+                label-color="positive"
                 class="q-my-sm"
                 rounded
                 outlined
@@ -56,6 +58,8 @@
                 label="Description"
               />
               <q-input
+                color="primary"
+                label-color="positive"
                 class="q-my-sm"
                 rounded
                 bg-color="white"
@@ -66,6 +70,8 @@
                 label="Amount"
               />
               <q-input
+                color="primary"
+                label-color="positive"
                 rounded
                 outlined
                 bg-color="white"
