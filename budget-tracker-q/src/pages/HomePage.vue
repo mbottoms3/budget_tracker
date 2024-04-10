@@ -175,7 +175,7 @@ export default {
           title: expense.title,
           amount: expense.amount * 4, // Multiply weekly amount by 4
           frequency: "weekly",
-          date: expense.date,
+          date: expense.weekday.label,
         };
         allExpenses.value.push(formattedExpense);
       });
